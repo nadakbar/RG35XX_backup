@@ -1,0 +1,25 @@
+{
+  "name": "RG35XX-Backup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": "index.js",
+  "pkg": {
+    "assets": [
+      "node_modules/**/*"
+    ],
+    "outputPath": "dist"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test s,pecified\" && exit 1",
+    "start": "node index.js",
+    "package": "pkg --debug ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^4.0.2",
+    "figlet": "^1.7.0",
+    "pkg": "^5.8.1"
+  }
+}
