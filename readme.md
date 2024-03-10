@@ -7,6 +7,12 @@ This Node.js script is designed to facilitate the backup of directories from the
 - ADB (Android Debug Bridge) installed on your system and accessible via the command line. Windows is provided in this repo
 - Access to an USB cable and ADB enabled RG35XX
 
+## Enable ADB
+- Insert the main SD card into a PC
+- On the Misc partition (not the larger partition with Roms foldeer) create a text file in the root of the drive. Rename this new file to "enableADB" making sure to remove the .txt file extention. image
+![Screenshot](/help/adb.png)
+- Reinsert the SD Card into the RG35xx and GarlicPress should now be able to connect to the device over USB if it is turned on (not on the battery charging screen).
+
 ## Installation
 1. Clone or download the repository containing this script to your local system.
 2. Navigate to the directory where the script is located using the command line.
