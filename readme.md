@@ -6,6 +6,7 @@ This Node.js script is designed to facilitate the backup of directories from the
 - Node.js installed on your system.
 - ADB (Android Debug Bridge) installed on your system and accessible via the command line. Windows is provided in this repo
 - Access to an USB cable and ADB enabled RG35XX
+- pkg (optional)
 
 ## Enable ADB
 - Insert the main SD card into a PC
@@ -20,6 +21,11 @@ This Node.js script is designed to facilitate the backup of directories from the
    ```
    npm install
    ```
+4. Optionally, if you wish to compile the script into an executable (.exe) file, you can install `pkg` globally using the following command:
+   ```
+   npm install -g pkg
+   ```
+   This step is necessary if you haven't installed `pkg` globally before and want to use it across different projects.
 
 ## Usage
 1. Connect your RG35XX device to your computer via USB.
@@ -32,6 +38,20 @@ This Node.js script is designed to facilitate the backup of directories from the
 5. Follow the on-screen prompts to select the card type (mmc or SDCARD) and the directory to back up.
 6. Optionally, choose to zip the backed-up directory when prompted.
 7. Once the backup is complete, the backed-up files will be available in the specified backup directory.
+
+## Compiling to Executable (Optional)
+To create an executable (.exe) file from the Node.js script, you can use the `pkg` package. This allows you to distribute the backup utility as a standalone executable without requiring users to have Node.js installed.
+
+### Commands
+- **Compile for Current Platform:**
+  ```
+  npm run package
+  ```
+- **Compile for Windows (64-bit):**
+  ```
+  npm run windows
+  ```
+
 
 ## Notes
 - This script assumes that ADB is installed and accessible via the system PATH for OS that are not windows.
