@@ -13,7 +13,8 @@
   "scripts": {
     "test": "echo \"Error: no test s,pecified\" && exit 1",
     "start": "node index.js",
-    "package": "pkg ."
+    "package": "pkg .",
+    "windows": "pkg -t node18-win-x64 -d --no-bytecode ."
   },
   "author": "",
   "license": "ISC",
