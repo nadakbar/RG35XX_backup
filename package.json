@@ -14,7 +14,7 @@
     "test": "echo \"Error: no test s,pecified\" && exit 1",
     "start": "node index.js",
     "package": "pkg .",
-    "windows": "pkg -t node18-win-x64 -d --no-bytecode ."
+    "windows": "pkg -t node18-win-x64 --no-bytecode --compress Gzip ."
   },
   "author": "",
   "license": "ISC",
