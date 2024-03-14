@@ -47,30 +47,30 @@ function displayAsciiArt() {
 }
 
 function listDirectories(cardType) {
-    return new Promise((resolve, reject) => {
-        let command;
-        if (cardType === 'SDCARD') {
-            command = `${adbPath} -d shell "ls -d /mnt/sdcard/*"`;
-        } else if (cardType === 'mmc') {
-            command = `${adbPath} -d shell "ls -d /mnt/mmc/*"`;
-        } else {
-            reject(new Error('Invalid card type.'));
-            return;
-        }
+  return new Promise((resolve, reject) => {
+    let command;
+    if (cardType === 'SDCARD') {
+      command = `${adbPath} -d shell "ls -d /mnt/sdcard/*"`;
+    } else if (cardType === 'mmc') {
+      command = `${adbPath} -d shell "ls -d /mnt/mmc/*"`;
+    } else {
+      reject(new Error('Invalid card type.'));
+      return;
+    }
 
-        exec(command, (error, stdout, stderr) => {
-            if (error) {
-                reject(error);
-                return;
-            }
-            if (stderr) {
-                reject(new Error(stderr));
-                return;
-            }
-            const directories = stdout.split('\n').filter(Boolean).map(dir => dir.trim());
-            resolve(directories);
-        });
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      if (stderr) {
+        reject(new Error(stderr));
+        return;
+      }
+      const directories = stdout.split('\n').filter(Boolean).map(dir => dir.trim());
+      resolve(directories);
     });
+  });
 }
 
 function adbPull(sourceDir) {
@@ -219,6 +219,8 @@ async function run() {
     }
   } catch (error) {
     console.error("Error:", error.message);
+  } finally {
+    kill();
   }
 }
 
@@ -234,5 +236,43 @@ function prompt(question) {
       readline.close();
       resolve(answer.trim());
     });
+  });
+}
+
+process.stdin.resume(); // so the program will not close instantly
+
+function exitHandler(options, exitCode) {
+  exec(`${adbPath} kill-server`, (error, stdout, stderr) => {
+    if (error) {
+      console.error("Error killing ADB server:", error.message);
+      return;
+    }
+    console.log("ADB server killed.");
+  });
+
+  if (options.cleanup) kill(); console.log('Tidy Up');
+  if (exitCode || exitCode === 0) console.log("Closing"); kill();
+  if (options.exit) kill(); process.exit();
+}
+
+// do something when app is closing
+process.on('exit', exitHandler.bind(null, { cleanup: true }));
+
+// catches ctrl+c event
+process.on('SIGINT', exitHandler.bind(null, { exit: true }));
+
+// catches uncaught exceptions
+process.on('uncaughtException', exitHandler.bind(null, { exit: true }));
+
+process.on('SIGHUP', exitHandler.bind(null, { exit: true }));
+
+
+function kill() {
+  exec(`${adbPath} kill-server`, (error, stdout, stderr) => {
+    if (error) {
+      console.error("Error killing ADB server:", error.message);
+      return;
+    }
+    console.log("ADB server killed.");
   });
 }
